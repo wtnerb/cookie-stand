@@ -31,23 +31,6 @@ store = new Store('Sea Center', 11, 38, 3.7);
 store = new Store('Cap Hill', 20, 38, 2.3);
 store = new Store('Alki', 2, 16, 4.6);
 
-// function tableHeader (columnsArray){
-//   var place = document.getElementById('stats-table');//find
-//   var child = document.createElement('thead');//create
-//   place.appendChild(child);//insert
-//   place = place.firstChild;//move down
-//   child = document.createElement('tr');//create
-//   place.appendChild(child);//insert
-//   place = place.firstChild;//move down
-//   child = document.createElement('td');
-//   place.appendChild(child);
-//   for (var i = 0; i < columnsArray.length; i++){
-//     child = document.createElement('td');
-//     child.textContent = columnsArray[i];
-//     place.appendChild(child);
-//   }
-// }
-
 function tableHeader (columnsArray){
   var place = document.getElementById('stats-table');//find
   var child = document.createElement('thead');//create
@@ -61,6 +44,22 @@ function tableHeader (columnsArray){
   fillRow(place, columnsArray);
 }
 
+function tableBody (array) {
+  var place = document.getElementById('stats-table');
+  var child = document.createElement('tbody');
+  place.appendChild(child);
+  for (var i = 0; i < array.length; i++){
+    child = document.createElement('tr');
+    place.appendChild(child);
+    place = place.lastChild;//step into tr
+    child = document.createElement('td');
+    child.textContent = array[i].name;
+    place.appendChild(child);
+    fillRow (place, array[i].sales);
+    place = place.parentNode;//step out of tr
+  }
+}
+
 function fillRow (place, array){
   for (var i = 0; i < array.length; i++){
     var child = document.createElement('td');
@@ -69,7 +68,11 @@ function fillRow (place, array){
   }
 }
 
+for (var i = 0; i < stores.length; i++){
+  stores[i].day();
+}
 tableHeader(hours);
+tableBody(stores);
 
 // var alki = {
 //   min: 2,
