@@ -1,5 +1,26 @@
 'use strict';
 
+function Store(name, min, max, avg){
+  this.min = min;
+  this.max = max;
+  this.avg = avg;
+  this.sales = [];
+  this.name = name;
+  this.salesTot = 0;
+  stores.push(this);
+}
+
+Store.prototype.hour = function {
+  return Math.floor(this.avg * ((1 + this.max - this.min) * Math.random() + this.min));
+}
+Store.prototype.day() = function {
+  for (i = 0; i < hours.length; i++){
+    this.sales.push(this.hour());
+  }
+}
+
+var stores = [];
+var hours = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm'],
 
 var pike = {
   min: 23,
