@@ -68,6 +68,16 @@ function fillRow (row, array){
   }
 }
 
+var formSubmit = document.getElementById('add-store');
+function onSubmit(event) {
+  event.preventDefault();
+  var item = new Store (event.target.storeName.value, event.target.min.value, event.target.max.value,event.target.avg.value);
+  console.log('item from form should be', item);
+  console.log('Store in array', stores[stores.length - 1]);
+}
+
+formSubmit.addEventListener('submit', onSubmit);
+
 for (var i = 0; i < stores.length; i++){
   stores[i].day();
   stores[i].sales.push(stores[i].salesTot);
