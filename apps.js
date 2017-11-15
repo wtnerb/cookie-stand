@@ -1,113 +1,76 @@
 'use strict';
 
+function Store(name, min, max, avg){
+  this.min = min;
+  this.max = max;
+  this.avg = avg;
+  this.sales = [];
+  this.name = name;
+  this.salesTot = 0;
+  stores.push(this);
+}
 
-var pike = {
-  min: 23,
-  max: 65,
-  avg: 6.3,
-  hours: ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm'],
-  sales: [],
-  hour: function (){
-    return Math.floor(this.avg * ((1 + this.max - this.min) * Math.random() + this.min));
-  },
-  day: function (){
-    var list = document.getElementById('pike');
-    for (var i = 0; i < this.hours.length; i++){
-      var child = document.createElement('li');
-      var sold = this.hour ();
-      this.sales.push(sold);
-      child.textContent = this.hours[i] + ' ' + sold;
-      list.appendChild (child);
-    }
-  },
+Store.prototype.hour = function (){
+  return Math.floor(this.avg * ((1 + this.max - this.min) * Math.random() + this.min));
 };
 
-var seatac = {
-  min: 3,
-  max: 24,
-  avg: 1.2,
-  hours: ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm'],
-  sales: [],
-  hour: function (){
-    return Math.floor(this.avg * ((1 + this.max - this.min) * Math.random() + this.min));
-  },
-  day: function (){
-    var list = document.getElementById('seatac');
-    for (var i = 0; i < this.hours.length; i++){
-      var child = document.createElement('li');
-      var sold = this.hour ();
-      this.sales.push(sold);
-      child.textContent = this.hours[i] + ' ' + sold;
-      list.appendChild (child);
-    }
-  },
+Store.prototype.day = function (){
+  for (var i = 0; i < hours.length - 1; i++){ //the minus one is because I finish the array with 'total'
+    this.sales.push(this.hour());
+    this.salesTot += this.sales[i];
+  }
 };
 
-var seacenter = {
-  min: 11,
-  max: 38,
-  avg: 3.7,
-  hours: ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm'],
-  sales: [],
-  hour: function (){
-    return Math.floor(this.avg * ((1 + this.max - this.min) * Math.random() + this.min));
-  },
-  day: function (){
-    var list = document.getElementById('seacenter');
-    for (var i = 0; i < this.hours.length; i++){
-      var child = document.createElement('li');
-      var sold = this.hour ();
-      this.sales.push(sold);
-      child.textContent = this.hours[i] + ' ' + sold;
-      list.appendChild (child);
-    }
-  },
-};
+var stores = [];
+var hours = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm', 'total'];
+var store = new Store('1st and Pike', 23, 65, 6.3);
+console.log('this is my first store', store);
+store = new Store('SeaTac', 3, 24, 1.2);
+store = new Store('Sea Center', 11, 38, 3.7);
+store = new Store('Cap Hill', 20, 38, 2.3);
+store = new Store('Alki', 2, 16, 4.6);
+console.log('store array populated:', stores);
 
-var caphill = {
-  min: 20,
-  max: 38,
-  avg: 2.3,
-  hours: ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm'],
-  sales: [],
-  hour: function (){
-    return Math.floor(this.avg * ((1 + this.max - this.min) * Math.random() + this.min));
-  },
-  day: function (){
-    var list = document.getElementById('caphill');
-    for (var i = 0; i < this.hours.length; i++){
-      var child = document.createElement('li');
-      var sold = this.hour ();
-      this.sales.push(sold);
-      child.textContent = this.hours[i] + ' ' + sold;
-      list.appendChild (child);
-    }
-  },
-};
+function tableHeader (columnsArray){
+  var place = document.getElementById('stats-table');//find
+  var child = document.createElement('thead');//create
+  place.appendChild(child);//insert
+  place = place.firstChild;//move down
+  child = document.createElement('tr');//create
+  place.appendChild(child);//insert
+  place = place.firstChild;//move down
+  child = document.createElement('td');
+  place.appendChild(child);//insert empty
+  fillRow(place, columnsArray);
+}
 
-var alki = {
-  min: 2,
-  max: 16,
-  avg: 4.6,
-  hours: ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm'],
-  sales: [],
-  hour: function (){
-    return Math.floor(this.avg * ((1 + this.max - this.min) * Math.random() + this.min));
-  },
-  day: function (){
-    var list = document.getElementById('alki');
-    for (var i = 0; i < this.hours.length; i++){
-      var child = document.createElement('li');
-      var sold = this.hour ();
-      this.sales.push(sold);
-      child.textContent = this.hours[i] + ' ' + sold;
-      list.appendChild (child);
-    }
-  },
-};
+function tableBody (array) {
+  var place = document.getElementById('stats-table');
+  var child = document.createElement('tbody');
+  place.appendChild(child);
+  for (var i = 0; i < array.length; i++){
+    child = document.createElement('tr');
+    place.appendChild(child);
+    place = place.lastChild;//step into tr
+    child = document.createElement('td');
+    child.textContent = array[i].name;
+    place.appendChild(child);
+    fillRow (place, array[i].sales);
+    place = place.parentNode;//step out of tr
+  }
+}
 
-pike.day();
-alki.day();
-seatac.day();
-seacenter.day();
-caphill.day();
+function fillRow (row, array){
+  for (var i = 0; i < array.length; i++){
+    var child = document.createElement('td');
+    child.textContent = array[i];
+    row.appendChild(child);
+  }
+}
+
+for (var i = 0; i < stores.length; i++){
+  stores[i].day();
+  stores[i].sales.push(stores[i].salesTot);
+}
+tableHeader(hours);
+tableBody(stores);
