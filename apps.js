@@ -15,23 +15,21 @@ Store.prototype.hour = function (){
 };
 
 Store.prototype.day = function (){
-  for (var i = 0; i < hours.length; i++){
+  for (var i = 0; i < hours.length - 1; i++){ //the minus one is because I finish the array with 'total'
     this.sales.push(this.hour());
     this.salesTot += this.sales[i];
   }
 };
 
-//initial conditions
 var stores = [];
-var hours = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm'];
-//populate stores array with constructor
+var hours = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm', 'total'];
 var store = new Store('1st and Pike', 23, 65, 6.3);
 console.log('this is my first store', store);
-console.log('now it is in my array', stores);
 store = new Store('SeaTac', 3, 24, 1.2);
 store = new Store('Sea Center', 11, 38, 3.7);
 store = new Store('Cap Hill', 20, 38, 2.3);
 store = new Store('Alki', 2, 16, 4.6);
+console.log('store array populated:', stores);
 
 function tableHeader (columnsArray){
   var place = document.getElementById('stats-table');//find
@@ -62,11 +60,11 @@ function tableBody (array) {
   }
 }
 
-function fillRow (place, array){
+function fillRow (row, array){
   for (var i = 0; i < array.length; i++){
     var child = document.createElement('td');
     child.textContent = array[i];
-    place.appendChild(child);
+    row.appendChild(child);
   }
 }
 
