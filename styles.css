@@ -1,0 +1,18 @@
+
+h1 {
+  color: pink;
+  text-shadow: 2px 4px 3px rgba(0,0,0,0.3);
+}
+
+body {
+  color = #43a5ef;
+  font-family: arial;
+  
+}
+
+.bgimage {
+  transform: rotate(270deg);
+  opacity: 0.3;
+  width: 100%;
+  z-index:-1;
+}
