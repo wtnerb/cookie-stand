@@ -7,7 +7,9 @@ function Store(name, min, max, avg){
   this.sales = [];
   this.name = name;
   this.salesTot = 0;
+  this.day();
   stores.push(this);
+  this.addToTable();
 }
 
 Store.prototype.hour = function (){
@@ -21,17 +23,18 @@ Store.prototype.day = function (){
   }
 };
 
+Store.prototype.addToTable = function (){
+  var target = document.getElementById('stats-table');
+  target = target.lastChild;
+  console.log('adding row to:', target);
+  target.appendChild(makeRow(this.name, this.sales, this.salesTot));
+};
+
 var stores = [];
 var hours = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm', 'total'];
-var store = new Store('1st and Pike', 23, 65, 6.3);
-console.log('this is my first store', store);
-store = new Store('SeaTac', 3, 24, 1.2);
-store = new Store('Sea Center', 11, 38, 3.7);
-store = new Store('Cap Hill', 20, 38, 2.3);
-store = new Store('Alki', 2, 16, 4.6);
-console.log('store array populated:', stores);
 
-function tableHeader (columnsArray){
+
+function tableHeader(columnsArray){
   var place = document.getElementById('stats-table');//find
   var child = document.createElement('thead');//create
   place.appendChild(child);//insert
@@ -44,23 +47,19 @@ function tableHeader (columnsArray){
   fillRow(place, columnsArray);
 }
 
-function tableBody (array) {
-  var place = document.getElementById('stats-table');
-  var child = document.createElement('tbody');
-  place.appendChild(child);
-  for (var i = 0; i < array.length; i++){
-    child = document.createElement('tr');
-    place.appendChild(child);
-    place = place.lastChild;//step into tr
-    child = document.createElement('td');
-    child.textContent = array[i].name;
-    place.appendChild(child);
-    fillRow (place, array[i].sales);
-    place = place.parentNode;//step out of tr
-  }
+function makeRow(header, data, footer){
+  var tblRow = document.createElement ('tr');
+  var child = document.createElement ('td');
+  console.log('header should be store name:', header);
+  child.textContent = header;
+  tblRow.appendChild(child);
+  fillRow(tblRow, data);
+  child.textContent = footer;
+  tblRow.appendChild(child);
+  return tblRow;
 }
 
-function fillRow (row, array){
+function fillRow(row, array){
   for (var i = 0; i < array.length; i++){
     var child = document.createElement('td');
     child.textContent = array[i];
@@ -68,9 +67,21 @@ function fillRow (row, array){
   }
 }
 
-for (var i = 0; i < stores.length; i++){
-  stores[i].day();
-  stores[i].sales.push(stores[i].salesTot);
+var formSubmit = document.getElementById('add-store');
+function onSubmit(event) {
+  event.preventDefault();
+  var item = new Store(event.target.storeName.value, parseInt(event.target.min.value), parseInt(event.target.max.value), parseFloat(event.target.avg.value));
+  console.log('item from form should be', item);
+  console.log('Store in array', stores[stores.length - 1]);
 }
+
+formSubmit.addEventListener('submit', onSubmit);
+
 tableHeader(hours);
-tableBody(stores);
+var store = new Store('1st and Pike', 23, 65, 6.3);
+console.log('this is my first store', store);
+store = new Store('SeaTac', 3, 24, 1.2);
+store = new Store('Sea Center', 11, 38, 3.7);
+store = new Store('Cap Hill', 20, 38, 2.3);
+store = new Store('Alki', 2, 16, 4.6);
+console.log('store array populated:', stores);
