@@ -1,5 +1,6 @@
 
 h1 {
+  padding-left: 20%;
   color: pink;
   text-shadow: 2px 4px 3px rgba(0,0,0,0.3);
 }
@@ -7,12 +8,36 @@ h1 {
 body {
   color = #43a5ef;
   font-family: arial;
-  
+  background-image: url(assets/salmon.png);
+  background-position: center;
+  background-attachment: scroll;
+  background-repeat: no-repeat;
+  background-color: #8cd1f9;
 }
 
-.bgimage {
-  transform: rotate(270deg);
-  opacity: 0.3;
-  width: 100%;
-  z-index:-1;
+.creepy-family {
+  float: right;
+  font-size: smaller;
+  padding-left: 20%;
+}
+
+.creepy-pic{
+  height: 200px;
+}
+
+footer {
+  text-align: center;
+  font-size: small;
+  font-family: cursive;
+  color: #a0a;
+}
+h4{
+  text-align: center;
+  font-family: cursive;
+  font-style: italic;
+}
+.locations {
+  float:right;
+  font-family: sans-serif;
+  list-style-type: circle;
 }

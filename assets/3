@@ -1,0 +1,4 @@
+class Budget (name, increment, type, balance)
+    name: name
+    increment: increment
+    
