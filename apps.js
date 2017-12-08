@@ -17,7 +17,7 @@ Store.prototype.hour = function (){
 };
 
 Store.prototype.day = function (){
-  for (var i = 0; i < hours.length - 1; i++){ //the minus one is because I finish the array with 'total'
+  for (var i = 0; i < hours.length - 1; i++){
     this.sales.push(this.hour());
     this.salesTot += this.sales[i];
   }
@@ -26,7 +26,6 @@ Store.prototype.day = function (){
 Store.prototype.addToTable = function (){
   var target = document.getElementById('stats-table');
   target = target.lastChild;
-  console.log('adding row to:', target);
   target.appendChild(makeRow(this.name, this.sales, this.salesTot));
 };
 
@@ -35,15 +34,15 @@ var hours = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '
 
 
 function tableHeader(columnsArray){
-  var place = document.getElementById('stats-table');//find
-  var child = document.createElement('thead');//create
-  place.appendChild(child);//insert
-  place = place.firstChild;//move down
-  child = document.createElement('tr');//create
-  place.appendChild(child);//insert
-  place = place.firstChild;//move down
+  var place = document.getElementById('stats-table');
+  var child = document.createElement('thead');
+  place.appendChild(child);
+  place = place.firstChild;
+  child = document.createElement('tr');
+  place.appendChild(child);
+  place = place.firstChild;
   child = document.createElement('td');
-  place.appendChild(child);//insert empty
+  place.appendChild(child);
   fillRow(place, columnsArray);
 }
 
@@ -71,17 +70,13 @@ var formSubmit = document.getElementById('add-store');
 function onSubmit(event) {
   event.preventDefault();
   var item = new Store(event.target.storeName.value, parseInt(event.target.min.value), parseInt(event.target.max.value), event.target.avg.value);
-  console.log('item from form should be', item);
-  console.log('Store in array', stores[stores.length - 1]);
 }
 
 formSubmit.addEventListener('submit', onSubmit);
 
 tableHeader(hours);
 var store = new Store('1st and Pike', 23, 65, 6.3);
-console.log('this is my first store', store);
 store = new Store('SeaTac', 3, 24, 1.2);
 store = new Store('Sea Center', 11, 38, 3.7);
 store = new Store('Cap Hill', 20, 38, 2.3);
 store = new Store('Alki', 2, 16, 4.6);
-console.log('store array populated:', stores);
