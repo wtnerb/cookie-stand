@@ -50,10 +50,10 @@ function tableHeader(columnsArray){
 function makeRow(header, data, footer){
   var tblRow = document.createElement ('tr');
   var child = document.createElement ('td');
-  console.log('header should be store name:', header);
   child.textContent = header;
   tblRow.appendChild(child);
   fillRow(tblRow, data);
+  child = document.createElement('td');
   child.textContent = footer;
   tblRow.appendChild(child);
   return tblRow;
@@ -70,7 +70,7 @@ function fillRow(row, array){
 var formSubmit = document.getElementById('add-store');
 function onSubmit(event) {
   event.preventDefault();
-  var item = new Store(event.target.storeName.value, parseInt(event.target.min.value), parseInt(event.target.max.value), parseFloat(event.target.avg.value));
+  var item = new Store(event.target.storeName.value, parseInt(event.target.min.value), parseInt(event.target.max.value), event.target.avg.value);
   console.log('item from form should be', item);
   console.log('Store in array', stores[stores.length - 1]);
 }
